@@ -62,3 +62,18 @@ export const deleteMonthlyIncmoming = async (id: number) => {
     }
 }
 
+
+export const sumByMonthIncoming = async (month: number) => {
+    try {
+        const db = await dbPromise;
+        const result = await db.getAllAsync(
+            `Select sum(amount) as total from monthly_incoming where month=?`, [month]
+        );
+
+        return result
+    } catch (error) {
+        console.error('get error:', error);
+        throw error;
+    }
+}
+

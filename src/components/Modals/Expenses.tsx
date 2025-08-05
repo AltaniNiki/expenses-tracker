@@ -88,6 +88,7 @@ export default function Expenses({ onCloseHandler, data, mode }) {
             const month = String(date.getMonth() + 1); // π.χ. "01"
             const year = String(date.getFullYear()); // π.χ. "2025"
 
+
             if (type == 0) {
                 await updateDailyExpenses(title, amount, category, data.id, month, year, date);
             } else if (type == 1) {
@@ -127,6 +128,17 @@ export default function Expenses({ onCloseHandler, data, mode }) {
         }
     }
 
+    const onChangeDate = (e, selectedDate) => {
+        // const day = String(new Date(selectedDate).getDate()).padStart(2, '0');        // π.χ. "03"
+        // const monthFinal = String(new Date(selectedDate).getMonth() + 1).padStart(2, '0'); // π.χ. "08"
+        // const yearFinal = new Date(selectedDate).getFullYear();
+
+        // const newDate = yearFinal + '-' + monthFinal + '-' + day;
+
+        setDate(new Date(selectedDate))
+
+    }
+
     return (
         <View>
             <ScrollView>
@@ -156,6 +168,7 @@ export default function Expenses({ onCloseHandler, data, mode }) {
                         value={date}
                         mode='date'
                         is24Hour={true}
+                        onChange={onChangeDate}
                     />
 
                 </View>

@@ -66,3 +66,19 @@ export const deleteFixedExpensesMonthAll = async (id: number) => {
         throw error;
     }
 }
+
+
+export const sumByMonth = async (month: number) => {
+    try {
+        const db = await dbPromise;
+        const result = await db.getAllAsync(
+            `Select sum(amount) as total from fixed_expenses_month where month=?`, [month]
+        );
+
+        return result
+    } catch (error) {
+        console.error('get error:', error);
+        throw error;
+    }
+}
+

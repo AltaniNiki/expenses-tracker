@@ -77,3 +77,44 @@ export const deleteDailyExpensesAll = async () => {
         throw error;
     }
 }
+
+export const getWeeklySumsByMonth = async (month: string, year: string) => {
+    try {
+        const db = await dbPromise;
+        const result = await db.getAllAsync(
+            `SELECT 
+                strftime('%W', date) AS week_number,
+                date(date, 'weekday 0', '-6 days') AS week_start,
+                date(date, 'weekday 0') AS week_end,
+                SUM(amount) AS total
+             FROM 
+                daily_expenses
+             WHERE 
+                month = ? AND year = ?
+             GROUP BY 
+                week_number
+             ORDER BY 
+                week_number`,
+            [month, year]
+        );
+
+        return result;
+    } catch (error) {
+        console.error("Error fetching weekly sums:", error);
+        throw error;
+    }
+};
+
+export const sumByMonthDaily = async (month: number) => {
+    try {
+        const db = await dbPromise;
+        const result = await db.getAllAsync(
+            `Select sum(amount) as total from daily_expenses where month=?`, [month]
+        );
+
+        return result
+    } catch (error) {
+        console.error('get error:', error);
+        throw error;
+    }
+}
